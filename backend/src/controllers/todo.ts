@@ -61,8 +61,9 @@ export const deleteTodoById = async (req: Request, res: Response) => {
       });
     }
 
-    return res.json({
+    return res.status(200).json({
       message: "Todo was deleted successfully.",
+      acknowledged: true,
     });
   } catch (error) {
     return res.status(500).json({

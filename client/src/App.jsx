@@ -18,7 +18,7 @@ export default function App() {
       }
  });
     const todos = await res.json();
-    console.log(todos, 'todos');
+    console.log(todos, 'todos getTodos');
     setTodos(todos.todos);
   }
   useEffect(() => {

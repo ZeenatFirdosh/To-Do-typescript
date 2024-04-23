@@ -32,12 +32,12 @@ export default function Todo(props) {
             method: "DELETE"
         });
         const json = await res.json();
+        console.log(json, "todo json deleteTodo");
         if (json.acknowledged) {
             setTodos(currentTodos => {
-                return currentTodos
-                .filter((currentTodo) => (currentTodo._id !== todoId));
-            })
-            props.getTodos();
+                return currentTodos.filter((currentTodo) => (currentTodo._id !== todoId));
+            })            
+            props.getTodos();            
         }
     };
 

@@ -2,14 +2,16 @@
 const BASE_URL = 'http://localhost:5000'
 export default function Todo(props) {
     const { todo, setTodos } = props;
-
+    console.log(process.env.REACT_APP_SERVER,"process.env.REACT_APP_SERVER");
     const updateTodo = async (todoId, todoStatus) => {
-        const res = await fetch(`${BASE_URL}/api/todos/${todoId}`, {
+        const res = await fetch(`${process.env.REACT_APP_SERVER}/api/todos/${todoId}`, {
             method: "PUT",
             body: JSON.stringify({ status: todoStatus }),
             headers: {
+                "Access-Control-Allow-Origin" : "*", 
+                "Access-Control-Allow-Credentials" : true,
                 "Content-Type": "application/json"
-            },
+              }
         });
 
         const json = await res.json();
@@ -26,7 +28,7 @@ export default function Todo(props) {
     };
 
     const deleteTodo = async (todoId) => {
-        const res = await fetch(`${BASE_URL}/todos/${todoId}`, {
+        const res = await fetch(`${process.env.REACT_APP_SERVER}/todos/${todoId}`, {
             method: "DELETE"
         });
         const json = await res.json();

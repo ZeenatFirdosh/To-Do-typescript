@@ -4,41 +4,49 @@ import Todo from "./Todo";
 const BASE_URL = "http://localhost:5000";
 
 export default function App() {
+  console.log(process.env.REACT_APP_SERVER,"process.env.REACT_APP_SERVER");
   const [todos, setTodos] = useState([]);
   console.log(todos,"todos");
   const [title, setTitle] = useState("");
   const [desc, setDesc] = useState("");
 
   async function getTodos() {
-    const res = await fetch(`${BASE_URL}/todos`);
+    const res = await fetch(`${process.env.REACT_APP_SERVER}/todos`,{
+      headers: {
+        "Access-Control-Allow-Origin" : "*", 
+        "Access-Control-Allow-Credentials" : true 
+      }
+ });
     const todos = await res.json();
+    console.log(todos, 'todos');
     setTodos(todos.todos);
   }
   useEffect(() => {
-    async function getTodos() {
-      const res = await fetch(`${BASE_URL}/todos`);
-      const todos = await res.json();
-  
-      setTodos(todos.todos);
-    }
+    // async function getTodos() {
+    //   const res = await fetch(`${process.env.REACT_APP_SERVER}/todos`);
+    //   const todos = await res.json();  
+    //   setTodos(todos.todos);
+    // }
     getTodos();
-  }, [todos]);
+  }, []);
 
   const createNewTodo = async (e) => {
     e.preventDefault();
     if (title.length > 3) {
-      const res = await fetch("/todos", {
+      const res = await fetch(`${process.env.REACT_APP_SERVER}/todos`, {
         method: "POST",
         body: JSON.stringify({ title,desc }),
         headers: {
+          "Access-Control-Allow-Origin" : "*", 
+          "Access-Control-Allow-Credentials" : true,
           "Content-Type": "application/json",
         },
       });
       const newTodo = await res.json();
-
+      console.log(newTodo,"newTodo");
       setTitle("");
       setDesc("");
-      setTodos([...todos, newTodo]);
+      setTodos([...todos, newTodo.result]);
     }
   }
 

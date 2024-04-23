@@ -5,16 +5,18 @@ export const createTodo = async (req: Request, res: Response) => {
   const todo = new Todo<ITodo>(req.body);
 
   try {
-    await todo.save();
+    const result = await todo.save();
+    res.status(201).json({
+      result
+    });
   } catch (error) {
     return res.status(500).json({
       error,
     });
   }
+  console.log(res,"res")
 
-  res.status(201).json({
-    message: "Todo created successfully",
-  });
+ 
 };
 
 export const getTodos = async (req: Request, res: Response) => {
